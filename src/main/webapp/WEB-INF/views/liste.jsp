@@ -1,44 +1,55 @@
 <%@ page contentType="text/html;charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <jsp:include page="/WEB-INF/views/fragments/entete.jsp"/>
 
+<div class="page-head">
+    <div>
+        <h1>Étudiants</h1>
+        <p class="muted">
+            ${fn:length(etudiants)} étudiant(s)
+            <c:if test="${not empty q}"> pour « <c:out value="${q}"/> »</c:if>
+        </p>
+    </div>
+</div>
 
-<h2>Liste des étudiants</h2>
+<c:if test="${not empty erreurBase}">
+    <div class="alert alert-error"><c:out value="${erreurBase}"/></div>
+</c:if>
 
-<c:if test="${not empty erreurBase}"><p class="erreur"><c:out value="${erreurBase}"/></p></c:if>
-
-<form action="${pageContext.request.contextPath}/etudiants" method="get">
-    <input type="text" name="q" placeholder="Nom ou filiere..." value="<c:out value='${q}'/>">
-    <button type="submit">Rechercher</button>
-    <a href="${pageContext.request.contextPath}/etudiants">Réinitialiser</a>
+<form class="search" action="${pageContext.request.contextPath}/etudiants" method="get">
+    <input class="input" type="text" name="q" placeholder="Rechercher par nom ou filière…" value="<c:out value='${q}'/>">
+    <button class="btn btn-primary" type="submit">Rechercher</button>
+    <a class="btn btn-ghost" href="${pageContext.request.contextPath}/etudiants">Réinitialiser</a>
 </form>
 
-<table border="1">
-    <thead>
-    <tr>
-        <th>Nom</th><th>Filière</th><th>Maths</th><th>Info</th><th>Anglais</th>
-        <th>Moyenne</th><th>Mention</th>
-    </tr>
-    </thead>
-    <tbody>
-    <c:forEach var="e" items="${etudiants}">
+<div class="card table-wrap">
+    <table class="table">
+        <thead>
         <tr>
-            <td><c:out value="${e.nom}"/></td>
-            <td><c:out value="${e.filiere}"/></td>
-            <td>${e.noteMath}</td>
-            <td>${e.noteInfo}</td>
-            <td>${e.noteAnglais}</td>
-            <td><strong><fmt:formatNumber value="${e.moyenneArrondie}" minFractionDigits="2" maxFractionDigits="2"/></strong></td>
-            <td class="${e.admis ? 'admis' : 'ajourne'}">${e.mention}</td>
+            <th>Nom</th><th>Filière</th>
+            <th class="num">Maths</th><th class="num">Info</th><th class="num">Anglais</th>
+            <th class="num">Moyenne</th><th>Mention</th>
         </tr>
-    </c:forEach>
-    <c:if test="${empty etudiants}">
-        <tr><td colspan="7">Aucun étudiant.</td></tr>
-    </c:if>
-    </tbody>
-</table>
-
-
+        </thead>
+        <tbody>
+        <c:forEach var="e" items="${etudiants}">
+            <tr>
+                <td><c:out value="${e.nom}"/></td>
+                <td><c:out value="${e.filiere}"/></td>
+                <td class="num"><fmt:formatNumber value="${e.noteMath}" maxFractionDigits="2"/></td>
+                <td class="num"><fmt:formatNumber value="${e.noteInfo}" maxFractionDigits="2"/></td>
+                <td class="num"><fmt:formatNumber value="${e.noteAnglais}" maxFractionDigits="2"/></td>
+                <td class="num"><strong><fmt:formatNumber value="${e.moyenneArrondie}" minFractionDigits="2" maxFractionDigits="2"/></strong></td>
+                <td><span class="badge ${e.admis ? 'badge-ok' : 'badge-ko'}">${e.mention}</span></td>
+            </tr>
+        </c:forEach>
+        <c:if test="${empty etudiants}">
+            <tr><td colspan="7" class="empty">Aucun étudiant ne correspond à la recherche.</td></tr>
+        </c:if>
+        </tbody>
+    </table>
+</div>
 
 <jsp:include page="/WEB-INF/views/fragments/pied.jsp"/>
