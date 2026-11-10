@@ -188,6 +188,7 @@ gestnotes/
 - One database connection is opened per operation through `DriverManager`. A production deployment would use a connection pool (`DataSource` configured in Tomcat).
 - The in-memory database is reset at every restart (intended for a demo).
 - Averages are currently displayed with JSTL's default banker's rounding (HALF_EVEN): 16.625 shows as 16.62 instead of 16.63 as required by the specification. Grades and pass/fail results are unaffected. Fix planned: HALF_UP rounding in the model.
+- Borderline averages (e.g. 9.995, displayed as 10.00) are evaluated on the exact value and therefore marked "Ajourné", as required by the specification. In practice such cases are decided by the academic board; a "to be reviewed by the board" flag is a possible enhancement.
 
 ## Roadmap
 

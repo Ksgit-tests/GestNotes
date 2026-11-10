@@ -65,6 +65,13 @@ public class Etudiant implements Serializable {
     }
 
     public List<String> valider() {
+        List<String> erreurs = validerIdentite();
+        erreurs.addAll(validerNotes());
+        return erreurs;
+    }
+
+    /** Règles sur le nom et la filière. */
+    public List<String> validerIdentite() {
         List<String> erreurs = new ArrayList<>();
         if (nom == null || nom.trim().isEmpty()) {
             erreurs.add("Le nom est obligatoire.");
@@ -74,12 +81,17 @@ public class Etudiant implements Serializable {
         if (filiere == null || filiere.trim().isEmpty()) {
             erreurs.add("La filière est obligatoire.");
         }
+        return erreurs;
+    }
+
+    /** Règles sur les trois notes (0 à 20, NaN refusé). */
+    public List<String> validerNotes() {
+        List<String> erreurs = new ArrayList<>();
         verifierNote(noteMath, "Mathématiques", erreurs);
         verifierNote(noteInfo, "Informatique", erreurs);
         verifierNote(noteAnglais, "Anglais", erreurs);
         return erreurs;
     }
-    
     /** Moyenne arrondie à 2 décimales, arrondi scolaire (16,625 -> 16,63). Pour l'affichage. */
     public double getMoyenneArrondie() {
         return BigDecimal.valueOf(getMoyenne()).setScale(2, RoundingMode.HALF_UP).doubleValue();

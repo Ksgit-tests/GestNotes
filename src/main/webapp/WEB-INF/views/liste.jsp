@@ -12,6 +12,7 @@
             <c:if test="${not empty q}"> pour « <c:out value="${q}"/> »</c:if>
         </p>
     </div>
+    <a class="btn btn-primary" href="${pageContext.request.contextPath}/etudiants?action=nouveau">+ Nouvel étudiant</a>
 </div>
 
 <c:if test="${not empty erreurBase}">
@@ -30,7 +31,7 @@
         <tr>
             <th>Nom</th><th>Filière</th>
             <th class="num">Maths</th><th class="num">Info</th><th class="num">Anglais</th>
-            <th class="num">Moyenne</th><th>Mention</th>
+            <th class="num">Moyenne</th><th>Mention</th><th></th>
         </tr>
         </thead>
         <tbody>
@@ -43,10 +44,11 @@
                 <td class="num"><fmt:formatNumber value="${e.noteAnglais}" maxFractionDigits="2"/></td>
                 <td class="num"><strong><fmt:formatNumber value="${e.moyenneArrondie}" minFractionDigits="2" maxFractionDigits="2"/></strong></td>
                 <td><span class="badge ${e.admis ? 'badge-ok' : 'badge-ko'}">${e.mention}</span></td>
+                <td class="num"><a class="link-action" href="${pageContext.request.contextPath}/etudiants?action=modifier&id=${e.id}">Modifier</a></td>
             </tr>
         </c:forEach>
         <c:if test="${empty etudiants}">
-            <tr><td colspan="7" class="empty">Aucun étudiant ne correspond à la recherche.</td></tr>
+            <tr><td colspan="8" class="empty">Aucun étudiant ne correspond à la recherche.</td></tr>
         </c:if>
         </tbody>
     </table>

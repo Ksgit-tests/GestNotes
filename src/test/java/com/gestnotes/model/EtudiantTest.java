@@ -43,6 +43,14 @@ class EtudiantTest {
         assertEquals(9.13, new Etudiant("a", "f", 9, 8, 11).getMoyenneArrondie(), 1e-9);    // 9,125
         assertEquals(13.56, new Etudiant("a", "f", 12, 13.5, 16).getMoyenneArrondie(), 1e-9); // 13,5625 : pas un cas « pile 5 »
     }
+    
+    @Test
+    void validation_separee_identite_et_notes() {
+        Etudiant e = new Etudiant("", " ", 25, 10, 10);
+        assertEquals(2, e.validerIdentite().size());
+        assertEquals(1, e.validerNotes().size());
+        assertEquals(3, e.valider().size());
+    }
 
     /* Réactivés à l'étape 7 (classe Statistiques) :
     @Test void statistiques() { ... }
