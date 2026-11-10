@@ -3,6 +3,9 @@ package com.gestnotes.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+// import pour faciliter gerer les arrondi des données du types double
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class Etudiant implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -75,6 +78,11 @@ public class Etudiant implements Serializable {
         verifierNote(noteInfo, "Informatique", erreurs);
         verifierNote(noteAnglais, "Anglais", erreurs);
         return erreurs;
+    }
+    
+    /** Moyenne arrondie à 2 décimales, arrondi scolaire (16,625 -> 16,63). Pour l'affichage. */
+    public double getMoyenneArrondie() {
+        return BigDecimal.valueOf(getMoyenne()).setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
 
     private static void verifierNote(double note, String module, List<String> erreurs) {

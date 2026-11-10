@@ -35,6 +35,14 @@ class EtudiantTest {
         assertEquals(5, invalide.valider().size());
         assertTrue(new Etudiant("Sara", "Info", 12, 13, 14).valider().isEmpty());
     }
+    
+    @Test
+    void moyenne_arrondie_half_up_comme_le_cahier_des_charges() {
+        assertEquals(16.63, new Etudiant("a", "f", 18, 15, 17).getMoyenneArrondie(), 1e-9); // 16,625
+        assertEquals(9.63, new Etudiant("a", "f", 10, 9, 10).getMoyenneArrondie(), 1e-9);   // 9,625
+        assertEquals(9.13, new Etudiant("a", "f", 9, 8, 11).getMoyenneArrondie(), 1e-9);    // 9,125
+        assertEquals(13.56, new Etudiant("a", "f", 12, 13.5, 16).getMoyenneArrondie(), 1e-9); // 13,5625 : pas un cas « pile 5 »
+    }
 
     /* Réactivés à l'étape 7 (classe Statistiques) :
     @Test void statistiques() { ... }

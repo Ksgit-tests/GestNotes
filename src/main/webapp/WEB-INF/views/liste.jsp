@@ -29,7 +29,7 @@
             <td>${e.noteMath}</td>
             <td>${e.noteInfo}</td>
             <td>${e.noteAnglais}</td>
-            <td><strong><fmt:formatNumber value="${e.moyenne}" minFractionDigits="2" maxFractionDigits="2"/></strong></td>
+            <td><strong><fmt:formatNumber value="${e.moyenneArrondie}" minFractionDigits="2" maxFractionDigits="2"/></strong></td>
             <td class="${e.admis ? 'admis' : 'ajourne'}">${e.mention}</td>
         </tr>
     </c:forEach>

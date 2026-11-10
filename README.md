@@ -43,7 +43,7 @@ A school needs to track student results. Each student has a name, a field of stu
 | Input validation (required fields, name length, grades in [0, 20], NaN rejected) | ✅ Implemented and tested |
 | JDBC data-access layer (list, search, find, create, update, delete) | ✅ Implemented and tested |
 | Automatic database creation and demo data at startup (listener) | ✅ Implemented |
-| Student list and case-insensitive search (web) | 🚧 Planned |
+| Student list and case-insensitive search (web) | ✅ Implemented |
 | Create / edit form with server-side validation and Post-Redirect-Get | 🚧 Planned |
 | Delete with confirmation and one-time "flash" message | 🚧 Planned |
 | Class statistics dashboard | 🚧 Planned |
@@ -187,13 +187,14 @@ gestnotes/
 - The SQL script runner splits on `;`, which would break on a `;` inside a string value. A migration tool such as Flyway would be used in a real project.
 - One database connection is opened per operation through `DriverManager`. A production deployment would use a connection pool (`DataSource` configured in Tomcat).
 - The in-memory database is reset at every restart (intended for a demo).
+- Averages are currently displayed with JSTL's default banker's rounding (HALF_EVEN): 16.625 shows as 16.62 instead of 16.63 as required by the specification. Grades and pass/fail results are unaffected. Fix planned: HALF_UP rounding in the model.
 
 ## Roadmap
 
 - [x] Domain model and business rules, with unit tests
 - [x] JDBC DAO with integration test
 - [x] Database initialisation listener
-- [ ] Student list and search (controller + JSP)
+- [x] Student list and search (controller + JSP)
 - [ ] Create / edit form, validation display, Post-Redirect-Get
 - [ ] Delete with confirmation and flash message
 - [ ] Class statistics
